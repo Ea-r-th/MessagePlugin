@@ -1,0 +1,5 @@
+name: MessagePlugin
+version: ${project.version}
+main: me.earth.messageplugin.MessagePlugin
+authors: [Ea_r_th]
+description: My sample plugin for a messaging system
