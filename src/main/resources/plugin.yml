@@ -1,5 +1,8 @@
 name: MessagePlugin
-version: ${project.version}
+version: 1.0
 main: me.earth.messageplugin.MessagePlugin
 authors: [Ea_r_th]
 description: My sample plugin for a messaging system
+
+commands:
+  openenvelope:
