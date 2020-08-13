@@ -34,7 +34,7 @@ public class Utils {
         return item;
     }
 
-    public static ItemStack createItemByte(Inventory inv, int materialID, int amount, int byteID, int invSlot, String displayName, String... loreString){
+    public static ItemStack createItemByte(Inventory inv, int materialID, int byteID, int amount, int invSlot, String displayName, String... loreString){
 
         ItemStack item;
         List<String> lore = new ArrayList<>();
@@ -50,6 +50,22 @@ public class Utils {
         item.setItemMeta(meta);
 
         inv.setItem(invSlot - 1, item);
+        return item;
+    }
+
+    public static ItemStack createItemStack(int materialID, int amount, String displayName, String... loreString){
+        ItemStack item;
+        List<String> lore = new ArrayList<>();
+
+        item = new ItemStack(Material.getMaterial(materialID), amount);
+
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(Utils.chat(displayName));
+        for(String s:loreString){
+            lore.add(Utils.chat(s));
+        }
+        meta.setLore(lore);
+        item.setItemMeta(meta);
         return item;
     }
 }

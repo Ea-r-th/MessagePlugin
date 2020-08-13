@@ -8,9 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-import static org.bukkit.Bukkit.getServer;
-
-
 public class InventoryClick implements Listener {
 
     private MessagePlugin plugin;
@@ -23,8 +20,12 @@ public class InventoryClick implements Listener {
     @EventHandler
     public void updateInventory(InventoryClickEvent e){
         Inventory inv = e.getInventory();
-        if(e.getInventory().getName().equals(EnvelopeGUI.inventoryName)){
-            EnvelopeGUI.setInv(inv);
+        Player player = (Player) e.getWhoClicked();
+        if(inv.getName().equals("&5Envelope")){
+            e.setCancelled(true);
+            if(e.getSlot() == 59){
+                player.closeInventory();
+            }
         }
     }
 }

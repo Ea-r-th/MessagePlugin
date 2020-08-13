@@ -5,4 +5,7 @@ authors: [Ea_r_th]
 description: My sample plugin for a messaging system
 
 commands:
-  openenvelope:
+  addressEnvelope:
+    description: Addresses an envelope.
+  giveEnvelope:
+    description: gives the player an envelope

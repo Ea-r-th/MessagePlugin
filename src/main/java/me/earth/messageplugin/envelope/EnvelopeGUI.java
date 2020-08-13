@@ -6,27 +6,17 @@ import org.bukkit.inventory.Inventory;
 
 public class EnvelopeGUI {
 
-    public static Inventory inv;
-    public static String inventoryName;
-    public static int size = 5 * 9;
+    public static int size = 7 * 9;
 
-    public static void init() {
-        inventoryName = Utils.chat("&bEnvelope");
+    public static Inventory createEnvelope(String inventoryName) {
 
-        inv = Bukkit.createInventory(null, size);
+        Inventory inv = Bukkit.createInventory(null, size, inventoryName);
         Utils.createItem(inv, 4, 34, 1, "&8Test Item", "&2The Greatest Item Ever");
         Utils.createItem(inv, 2, 17, 2, "&1Test Item 2", "&2Something else");
-        Utils.createItemByte(inv, 95, 1, 3, 3, "&ATest with specific byte ID", "&2Should be specific color");
-    }
+        Utils.createItemByte(inv, 95, 3, 1, 3, "&4Test with specific byte ID", "&2Should be specific color");
+        Utils.createItemByte(inv, 35, 5, 1, 58, "&aSeal Envelope");
+        Utils.createItemByte(inv, 35, 14, 1, 60, "&4Close");
 
-    public static Inventory GUI() {
-        Inventory returnInv = Bukkit.createInventory(null, size, inventoryName);
-
-        returnInv.setContents(inv.getContents());
-        return returnInv;
-    }
-
-    public static void setInv(Inventory inv) {
-        EnvelopeGUI.inv = inv;
+        return inv;
     }
 }
