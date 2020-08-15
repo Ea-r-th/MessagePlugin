@@ -1,6 +1,7 @@
 package me.earth.messageplugin.commands;
 
 import me.earth.messageplugin.MessagePlugin;
+import me.earth.messageplugin.envelope.Envelope;
 import me.earth.messageplugin.utils.EnchantmentGlow;
 import me.earth.messageplugin.utils.Utils;
 import org.bukkit.Material;
@@ -10,6 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RenameEnvelope implements CommandExecutor {
 
@@ -28,24 +32,47 @@ public class RenameEnvelope implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        ItemStack envelope = player.getInventory().getItemInMainHand();
+        ItemStack envelopeItem = player.getInventory().getItemInMainHand();
 
-        if(!envelope.getType().equals(Material.GOLD_HOE)){
+        if(!envelopeItem.getType().equals(Material.GOLD_HOE)){
             player.sendMessage(Utils.chat("&4You must be holding a golden hoe to address it!"));
             return true;
         }
-        if(args[0] == null){
+        if(args[0].equals(null)){
             player.sendMessage(Utils.chat("&4You must provide a sender!"));
             return true;
         }
 
-        ItemMeta envelopeMeta = envelope.getItemMeta();
+        ItemMeta envelopeMeta = envelopeItem.getItemMeta();
 
-        EnchantmentGlow glow = new EnchantmentGlow(70);
+        List<String> loreList = new ArrayList<>();
+        String ID = envelopeMeta.getLore().get(1);
 
-        envelopeMeta.addEnchant(glow, 1, true);
-        envelopeMeta.setDisplayName(Utils.chat("&b" + args[0]));
-        envelope.setItemMeta(envelopeMeta);
+        loreList.add(Utils.chat("&aSealed, addressed"));
+        loreList.add(ID);
+
+        Envelope envelope = Envelope.Envelopes.get(ID);
+
+        if(envelope.getEnvelopeItem().getItemMeta().getLore().get(0).equals(Utils.chat("&aSealed, addressed"))){
+            player.sendMessage("This is already addressed!");
+            return true;
+        }
+
+        if(envelope.getSealed()) {
+
+            envelopeMeta.setDisplayName(Utils.chat("&bAddressed to: " + args[0]));
+            envelope.setAddress(args[0]);
+            envelopeMeta.setLore(loreList);
+            envelopeItem.setItemMeta(envelopeMeta);
+            envelope.setEnvelopeItem(envelopeItem);
+            envelope.setSender(player.getDisplayName());
+            envelope.getEnvelopeItem().getItemMeta().setDisplayName(Utils.chat(("&aMail from &b" + envelope.getSender())));
+
+            Envelope.sealedEnvelopes.add(envelope);
+        }
+        else{
+            player.sendMessage("You cannot address an unsealed envelope!");
+        }
         return false;
     }
 }

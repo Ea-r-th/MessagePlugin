@@ -61,7 +61,7 @@ public class EnchantmentGlow extends Enchantment {
             e.printStackTrace();
         }
         try {
-            EnchantmentGlow glow = new EnchantmentGlow(70);
+            EnchantmentGlow glow = new EnchantmentGlow(80);
             Enchantment.registerEnchantment(glow);
         }
         catch (IllegalArgumentException e){
